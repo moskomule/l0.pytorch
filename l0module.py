@@ -29,7 +29,7 @@ class _L0Norm(nn.Module):
         self._size = self._origin.weight.size()
         self.loc = nn.Parameter(torch.zeros(self._size).normal_(loc_mean, loc_sdev))
         self.temp = beta if fix_temp else nn.Parameter(torch.zeros(1).fill_(beta))
-        self._u = self.register_buffer("uniform", torch.zeros(self._size))
+        self.register_buffer("uniform", torch.zeros(self._size))
         self.gamma = gamma
         self.zeta = zeta
         self.gamma_zeta_ratio = math.log(-gamma / zeta)

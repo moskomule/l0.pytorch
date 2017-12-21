@@ -23,9 +23,11 @@ An implementation of **Learning Sparse Neural Networks through $L_0$ Regularizat
 Not yet strictly measure how sparse the L0 regularized model is, but show histograms of the first convolutional layers' weights.
 
 * with L0 normalization
+
 ![](images/LeNetwithL0.png)
 
 * without L0 normalization
+
 ![](images/LeNetwithoutL0.png)
 
 ## ToDo
