@@ -38,7 +38,7 @@ class _L0Norm(nn.Module):
         if self.training:
             self.uniform.uniform_()
             u = Variable(self.uniform)
-            s = F.sigmoid((torch.log(u) + torch.log(1 - u) + self.loc) / self.temp)
+            s = F.sigmoid((torch.log(u) - torch.log(1 - u) + self.loc) / self.temp)
             s = s * (self.zeta - self.gamma) + self.gamma
             penalty = F.sigmoid(self.loc - self.temp * self.gamma_zeta_ratio).sum()
         else:
@@ -67,3 +67,16 @@ class L0Conv2d(_L0Norm):
         conv = F.conv2d(input, self._origin.weight * mask, self._origin.bias, stride=self._origin.stride,
                         padding=self._origin.padding, dilation=self._origin.dilation, groups=self._origin.groups)
         return conv, penalty
+
+
+class L0Sequential(nn.Sequential):
+    def forward(self, input):
+        penalty = 0
+        for module in self._modules.values():
+            output = module(input)
+            if isinstance(output, tuple):
+                input = output[0]
+                penalty += output[1]
+            else:
+                input = output
+        return input, penalty

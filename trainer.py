@@ -60,7 +60,7 @@ class Trainer(object):
         if self._scheduler is not None:
             self._scheduler.step()
         for name, param in self.model.named_parameters():
-            self._logger.add_histogram(name, param, self._epochs, bins="auto")
+            self._logger.add_histogram(name, param, self._epochs, bins="sqrt")
         self._epochs += 1
 
     def test(self, data_loader):
